@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
+import { styles } from "../style/styles";
 
 export const Header = () => {
+  const { flexRow } = styles;
+
   return (
-    <header className="py-3 border-b-2 border-gray-500">
-      <div className="flex flex-row justify-between items-center px-12 md:justify-around md:px-0">
-        <div className="flex flex-row space-x-16">
-          <Link to="/" value="Login">
-            <label htmlFor="navLink">Login</label>
-            <input type="radio" name="navLink" className="hidden" value="Top" />
-          </Link>
-        </div>
+    <header
+      className={`${flexRow} bg-indigo-300 justify-between items-center py-2 text-white`}
+    >
+      <div
+        className={`${flexRow} justify-center items-center space-x-16 px-10`}
+      >
+        <div className="text-xl">logo</div>
+        <Link to="/" value="Login">
+          <label htmlFor="navLink">Login</label>
+          <input type="radio" name="navLink" className="hidden" value="Top" />
+        </Link>
       </div>
     </header>
   );

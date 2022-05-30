@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="py-3 border-t-2 border-gray-500 flex justify-center">
+    <footer className="py-3 bg-indigo-300 text-white flex justify-center">
       &copy; sannaga
     </footer>
   );
