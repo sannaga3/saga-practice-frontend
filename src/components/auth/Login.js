@@ -1,37 +1,48 @@
-import { styles } from "../style/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { loginUserRequest } from "../../sagas/users";
+import { ErrorMessages } from "../errorMessage/ErrorMessage";
 
 export const Login = () => {
-  const { flexRow, flexCol, titleText, label, input, button } = styles;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const errors = useSelector((state) => state.user.errors);
 
-  const login = () => {
-    console.log("a");
+  const handleLogin = () => {
+    const formValues = {
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+    };
+    // saga action をディスパッチ。画面遷移はジェネレータ内で行う為、navigateメソッドをバケツリレーする。
+    dispatch(loginUserRequest(formValues, navigate));
   };
 
   return (
-    <div className={`${flexCol} items-center`}>
+    <div className="flexCol items-center">
       <div className="w-1/2 bg-white p-5 border rounded-lg shadow-xl">
-        <h1 className={titleText}>Login</h1>
-        <form className={`${flexCol} items-center space-y-8 pt-16`}>
-          <div className={`${flexRow} justify-start items-center space-x-5`}>
-            <label className={`${label} w-32`}>email: </label>
+        <h1 className="titleText">Login</h1>
+        <ErrorMessages errors={errors} />
+        <form className="flexCol items-center space-y-8 pt-8">
+          <div className="flexRow justify-start items-center space-x-5">
+            <label className="label w-32">email: </label>
             <input
+              id="email"
               type="email"
-              className={`${input} w-60`}
+              className="input w-60"
               placeholder="abc@sample.com"
             />
           </div>
-          <div className={`${flexRow} justify-start items-center space-x-5`}>
-            <label className={`${label} w-32`}>password: </label>
+          <div className="flexRow justify-start items-center space-x-5">
+            <label className="label w-32">password: </label>
             <input
+              id="password"
               type="password"
-              className={`${input} w-60`}
+              className="input w-60"
               placeholder="******"
             />
           </div>
-          <button
-            onClick={login}
-            className={`${button} bg-blue-400 text-white hover:bg-blue-500`}
-          >
+          <button type="button" onClick={handleLogin} className="btn btn-blue">
             送信
           </button>
         </form>

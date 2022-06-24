@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.flexRow {
+  @apply flex flex-row;
+}
+.flexCol {
+  @apply flex flex-col;
+}
+.titleText {
+  @apply text-3xl font-bold text-center;
+}
+.label {
+  @apply text-base text-left;
+}
+.input {
+  @apply border border-gray-300 rounded-full bg-gray-100 py-1 px-3 focus:outline-blue-400;
+}
+.btn {
+  @apply px-4 py-1 border rounded-full hover:scale-110;
+}
+
+.btn-blue {
+  @apply bg-blue-400 text-white hover:bg-blue-500;
+}

@@ -1,20 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login } from "../components/auth/Login";
 
 import { DefaultLayout } from "../components/layout/DefaultLayout";
+import { Login } from "../components/auth/Login";
+import { PostList } from "../components/post/PostList";
 
 export const Router = () => {
   return (
-    <>
-      <BrowserRouter>
-        <div>
-          <DefaultLayout>
-            <Routes>
-              <Route path="/" element={<Login />} />
-            </Routes>
-          </DefaultLayout>
-        </div>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <DefaultLayout>
+        <Routes>
+          <Route path="/posts" element={<PostList />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </DefaultLayout>
+    </BrowserRouter>
   );
 };
