@@ -1,4 +1,4 @@
-export const ErrorMessages = ({ errors }) => {
+export const ErrorMessage = ({ errors }) => {
   return (
     <>
       {errors.length > 0 && (

@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { loginUserRequest } from "../../sagas/users";
-import { ErrorMessages } from "../errorMessage/ErrorMessage";
+import { Message } from "../layout/message/Message";
 
 export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation(); //location.stateでフラッシュメッセージを取得
+
   const errors = useSelector((state) => state.user.errors);
 
   const handleLogin = () => {
@@ -22,7 +24,7 @@ export const Login = () => {
     <div className="flexCol items-center">
       <div className="w-1/2 bg-white p-5 border rounded-lg shadow-xl">
         <h1 className="titleText">Login</h1>
-        <ErrorMessages errors={errors} />
+        <Message errors={errors} location={location} />
         <form className="flexCol items-center space-y-8 pt-8">
           <div className="flexRow justify-start items-center space-x-5">
             <label className="label w-32">email: </label>
