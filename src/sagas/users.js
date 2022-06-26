@@ -3,9 +3,9 @@ import { takeEvery, call, fork, put } from "redux-saga/effects";
 import * as api from "../api/users";
 import {
   loginSuccess,
-  loginFailure,
   logoutSuccess,
-  logoutFailure,
+  signupSuccess,
+  requestFailed,
 } from "../slices/userSlice";
 
 //------------------------------------------------------
@@ -22,6 +22,11 @@ export const logoutUserRequest = (navigate) => ({
   payload: { navigate },
 });
 
+export const signupUserRequest = (formValues, navigate) => ({
+  type: "SIGNUP_USER_REQUEST",
+  payload: { formValues, navigate },
+});
+
 //------------------------------------------------------
 // generators
 //------------------------------------------------------
@@ -29,17 +34,16 @@ export const logoutUserRequest = (navigate) => ({
 function* loginUser({ payload }) {
   try {
     // apiの結果を待つ
-    const result = yield call(api.loginUser, {
-      email: payload.formValues.email,
-      password: payload.formValues.password,
-    });
+    const result = yield call(api.loginUser, payload.formValues);
+
     // reducersのsetUserアクションをdispatch
     yield put(loginSuccess(result.data));
+
     payload.navigate("/posts", { state: { flash: "ログインしました" } });
   } catch (e) {
     let errorMessages = Object.values(e.response.data.errorMessages);
     errorMessages = [].concat.apply([], errorMessages);
-    yield put(loginFailure(errorMessages));
+    yield put(requestFailed({ loginError: errorMessages }));
   }
 }
 
@@ -51,7 +55,21 @@ function* logoutUser({ payload }) {
   } catch (e) {
     let errorMessages = Object.values(e.response.data.errorMessages);
     errorMessages = [].concat.apply([], errorMessages);
-    yield put(logoutFailure(errorMessages));
+    yield put(requestFailed(errorMessages));
+  }
+}
+
+function* signupUser({ payload }) {
+  try {
+    const result = yield call(api.signupUser, payload.formValues);
+    yield put(signupSuccess(result.data));
+    payload.navigate("/posts", {
+      state: { flash: "アカウントを登録しました" },
+    });
+  } catch (e) {
+    let errorMessages = Object.values(e.response.data.errorMessages);
+    errorMessages = [].concat.apply([], errorMessages);
+    yield put(requestFailed({ signupError: errorMessages }));
   }
 }
 
@@ -67,6 +85,14 @@ function* watchLogoutUserRequest() {
   yield takeEvery("LOGOUT_USER_REQUEST", logoutUser);
 }
 
-const userSagas = [fork(watchLoginUserRequest), fork(watchLogoutUserRequest)];
+function* watchSignupUserRequest() {
+  yield takeEvery("SIGNUP_USER_REQUEST", signupUser);
+}
+
+const userSagas = [
+  fork(watchLoginUserRequest),
+  fork(watchLogoutUserRequest),
+  fork(watchSignupUserRequest),
+];
 
 export default userSagas;

@@ -7,3 +7,7 @@ export const loginUser = (params) => {
 export const logoutUser = () => {
   return client.post("/logout");
 };
+
+export const signupUser = (params) => {
+  return client.post("/signup", params);
+};

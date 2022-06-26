@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import { DefaultLayout } from "../components/layout/DefaultLayout";
 import { Login } from "../components/auth/Login";
+import { Signup } from "../components/auth/Signup";
 import { PostList } from "../components/post/PostList";
 
 export const Router = () => {
@@ -29,6 +30,7 @@ export const Router = () => {
       <DefaultLayout>
         <Routes>
           <Route path="/posts" element={handleAuth(<PostList />)} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Login />} />
         </Routes>
       </DefaultLayout>

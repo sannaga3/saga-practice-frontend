@@ -31,13 +31,14 @@ export const Header = () => {
             Logout
           </button>
         ) : (
-          <Link
-            to="/"
-            value="Login"
-            className="hover:cursol-pointer hover:scale-110"
-          >
-            Login
-          </Link>
+          <>
+            <Link to="/" className="hover:cursol-pointer hover:scale-110">
+              Login
+            </Link>
+            <Link to="/signup" className="hover:cursol-pointer hover:scale-110">
+              Signup
+            </Link>
+          </>
         )}
       </div>
     </header>

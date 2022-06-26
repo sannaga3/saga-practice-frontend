@@ -15,13 +15,6 @@ const userSlice = createSlice({
         errors: {},
       };
     },
-    loginFailure: (state, action) => {
-      return {
-        ...state,
-        currentUser: {},
-        errors: action.payload,
-      };
-    },
     logoutSuccess: (state) => {
       return {
         ...state,
@@ -29,9 +22,17 @@ const userSlice = createSlice({
         errors: {},
       };
     },
-    logoutFailure: (state, action) => {
+    signupSuccess: (state, action) => {
       return {
         ...state,
+        currentUser: action.payload,
+        errors: {},
+      };
+    },
+    requestFailed: (state, action) => {
+      return {
+        ...state,
+        currentUser: {},
         errors: action.payload,
       };
     },
@@ -42,5 +43,5 @@ const userSlice = createSlice({
 export default userSlice.reducer;
 
 // Action
-export const { loginSuccess, loginFailure, logoutSuccess, logoutFailure } =
+export const { loginSuccess, logoutSuccess, signupSuccess, requestFailed } =
   userSlice.actions;
