@@ -23,13 +23,18 @@ export const Header = () => {
         <div className="text-xl">logo</div>
         <div className="text-md">ユーザ名 : {user.name ?? ""}</div>
         {Object.keys(user).length > 0 ? (
-          <button
-            type="button"
-            onClick={handleLoout}
-            className="hover:scale-110"
-          >
-            Logout
-          </button>
+          <>
+            <Link to="/posts" className="hover:cursol-pointer hover:scale-110">
+              PostList
+            </Link>
+            <button
+              type="button"
+              onClick={handleLoout}
+              className="hover:scale-110"
+            >
+              Logout
+            </button>
+          </>
         ) : (
           <>
             <Link to="/" className="hover:cursol-pointer hover:scale-110">
