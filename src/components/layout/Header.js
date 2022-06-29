@@ -27,6 +27,12 @@ export const Header = () => {
             <Link to="/posts" className="hover:cursol-pointer hover:scale-110">
               PostList
             </Link>
+            <Link
+              to="/posts/create"
+              className="hover:cursol-pointer hover:scale-110"
+            >
+              CreatePost
+            </Link>
             <button
               type="button"
               onClick={handleLoout}

@@ -28,7 +28,7 @@ export const Signup = () => {
         <h1 className="titleText">Signup</h1>
         <Message errors={errors.signupError ?? ""} location={location} />
         <form className="flexCol items-center space-y-8 pt-8">
-          <div className="flexRow justify-start items-center space-x-5">
+          <div className="form-content space-x-5">
             <label className="label w-32">name: </label>
             <input
               id="name"
@@ -37,7 +37,7 @@ export const Signup = () => {
               placeholder="sample name"
             />
           </div>
-          <div className="flexRow justify-start items-center space-x-5">
+          <div className="form-content space-x-5">
             <label className="label w-32">email: </label>
             <input
               id="email"
@@ -46,7 +46,7 @@ export const Signup = () => {
               placeholder="abc@sample.com"
             />
           </div>
-          <div className="flexRow justify-start items-center space-x-5">
+          <div className="form-content space-x-5">
             <label className="label w-32">password: </label>
             <input
               id="password"
@@ -55,7 +55,7 @@ export const Signup = () => {
               placeholder="******"
             />
           </div>
-          <div className="flexRow justify-start items-center space-x-5">
+          <div className="form-content space-x-5">
             <label className="label w-32">password_confirm: </label>
             <input
               id="password_confirm"

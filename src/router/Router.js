@@ -5,6 +5,7 @@ import { DefaultLayout } from "../components/layout/DefaultLayout";
 import { Login } from "../components/auth/Login";
 import { Signup } from "../components/auth/Signup";
 import { PostList } from "../components/post/PostList";
+import { CreatePost } from "../components/post/CreatePost";
 
 export const Router = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -29,6 +30,7 @@ export const Router = () => {
     <BrowserRouter>
       <DefaultLayout>
         <Routes>
+          <Route path="/posts/create" element={handleAuth(<CreatePost />)} />
           <Route path="/posts" element={handleAuth(<PostList />)} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Login />} />

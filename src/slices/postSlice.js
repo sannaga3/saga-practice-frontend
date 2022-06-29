@@ -15,10 +15,16 @@ const postSlice = createSlice({
         errors: [],
       };
     },
+    storePostSuccess: (state, action) => {
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+        errors: [],
+      };
+    },
     requestFailed: (state, action) => {
       return {
         ...state,
-        posts: [],
         errors: action.payload,
       };
     },
@@ -29,4 +35,5 @@ const postSlice = createSlice({
 export default postSlice.reducer;
 
 // Action
-export const { getPostsSuccess, requestFailed } = postSlice.actions;
+export const { getPostsSuccess, storePostSuccess, requestFailed } =
+  postSlice.actions;

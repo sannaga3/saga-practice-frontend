@@ -1,7 +1,11 @@
 import { takeEvery, call, fork, put } from "redux-saga/effects";
 
 import * as api from "../api/posts";
-import { getPostsSuccess, requestFailed } from "../slices/postSlice";
+import {
+  getPostsSuccess,
+  storePostSuccess,
+  requestFailed,
+} from "../slices/postSlice";
 
 //------------------------------------------------------
 // saga actions
@@ -9,6 +13,11 @@ import { getPostsSuccess, requestFailed } from "../slices/postSlice";
 
 export const getPostsRequest = () => ({
   type: "GET_POSTS_REQUEST",
+});
+
+export const storePostRequest = (formValues, navigate) => ({
+  type: "STORE_POST_REQUEST",
+  payload: { formValues, navigate },
 });
 
 //------------------------------------------------------
@@ -26,6 +35,22 @@ function* getPosts() {
   }
 }
 
+function* storePost({ payload }) {
+  try {
+    const result = yield call(api.storePost, payload.formValues);
+    console.log(payload);
+    yield put(storePostSuccess(result.data));
+    payload.navigate("/posts", {
+      state: { flash: "新しい投稿を作成しました" },
+    });
+  } catch (e) {
+    console.log(e);
+    let errorMessages = Object.values(e.response.data.errorMessages);
+    errorMessages = [].concat.apply([], errorMessages);
+    yield put(requestFailed({ storePostError: errorMessages }));
+  }
+}
+
 //------------------------------------------------------
 // saga watchers
 //------------------------------------------------------
@@ -34,6 +59,10 @@ function* watchGetPostsRequest() {
   yield takeEvery("GET_POSTS_REQUEST", getPosts);
 }
 
-const postSagas = [fork(watchGetPostsRequest)];
+function* watchStorePostRequest() {
+  yield takeEvery("STORE_POST_REQUEST", storePost);
+}
+
+const postSagas = [fork(watchGetPostsRequest), fork(watchStorePostRequest)];
 
 export default postSagas;
