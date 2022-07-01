@@ -5,33 +5,24 @@ const postSlice = createSlice({
   initialState: {
     post: {},
     posts: [],
-    errors: [],
+    errors: {},
   },
   reducers: {
     getPostsSuccess: (state, action) => {
-      return {
-        ...state,
-        posts: action.payload,
-        errors: [],
-      };
+      state.posts = [...action.payload];
+      state.errors = {};
     },
     storePostSuccess: (state, action) => {
-      return {
-        ...state,
-        posts: [...state.posts, action.payload],
-        errors: [],
-      };
+      state.posts = [...state.posts, action.payload];
+      state.errors = {};
     },
     updatePostSuccess: (state, action) => {
       const target = findIndexById(state, action.payload[0].id);
       state.posts.splice(target, 1, action.payload[0]);
-      state.errors = [];
+      state.errors = {};
     },
     requestFailed: (state, action) => {
-      return {
-        ...state,
-        errors: action.payload,
-      };
+      state.errors = action.payload;
     },
   },
 });

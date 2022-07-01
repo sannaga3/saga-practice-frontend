@@ -9,32 +9,16 @@ const userSlice = createSlice({
   },
   reducers: {
     loginSuccess: (state, action) => {
-      return {
-        ...state,
-        currentUser: action.payload,
-        errors: {},
-      };
-    },
-    logoutSuccess: (state) => {
-      return {
-        ...state,
-        currentUser: {},
-        errors: {},
-      };
+      state.currentUser = action.payload;
+      state.errors = {};
     },
     signupSuccess: (state, action) => {
-      return {
-        ...state,
-        currentUser: action.payload,
-        errors: {},
-      };
+      state.currentUser = action.payload;
+      state.errors = {};
     },
     requestFailed: (state, action) => {
-      return {
-        ...state,
-        currentUser: {},
-        errors: action.payload,
-      };
+      state.currentUser = {};
+      state.errors = action.payload;
     },
   },
 });
@@ -43,5 +27,39 @@ const userSlice = createSlice({
 export default userSlice.reducer;
 
 // Action
-export const { loginSuccess, logoutSuccess, signupSuccess, requestFailed } =
-  userSlice.actions;
+export const { loginSuccess, signupSuccess, requestFailed } = userSlice.actions;
+
+// 下記が通常のreducerの書き方。return内部で変更するstateの階層を全てコピーし、再生成している。
+// createSliceではstateに対してコールバックでimmerが適用されており、stateの変更を追跡してコピーを生成する。
+// 詳細はredux-toolkitの公式  https://redux-toolkit.js.org/usage/immer-reducers
+
+// reducers: {
+//   loginSuccess: (state, action) => {
+//     return {
+//       ...state,
+//       currentUser: action.payload,
+//       errors: {},
+//     };
+//   },
+//   logoutSuccess: (state) => {
+//     return {
+//       ...state,
+//       currentUser: {},
+//       errors: {},
+//     };
+//   },
+//   signupSuccess: (state, action) => {
+//     return {
+//       ...state,
+//       currentUser: action.payload,
+//       errors: {},
+//     };
+//   },
+//   requestFailed: (state, action) => {
+//     return {
+//       ...state,
+//       currentUser: {},
+//       errors: action.payload,
+//     };
+//   },
+// },

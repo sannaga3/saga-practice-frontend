@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Message } from "../layout/message/Message";
 import { Posts } from "./Posts";
@@ -10,7 +10,7 @@ export const PostList = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const posts = useSelector((state) => state.post.posts, shallowEqual);
+  const posts = useSelector((state) => state.post.posts);
   const errors = useSelector((state) => state.post.errors);
 
   useEffect(() => {

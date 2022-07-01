@@ -3,7 +3,6 @@ import { takeEvery, call, fork, put } from "redux-saga/effects";
 import * as api from "../api/users";
 import {
   loginSuccess,
-  logoutSuccess,
   signupSuccess,
   requestFailed,
 } from "../slices/userSlice";
@@ -50,8 +49,8 @@ function* loginUser({ payload }) {
 function* logoutUser({ payload }) {
   try {
     const result = yield call(api.logoutUser);
-    yield put(logoutSuccess());
     payload.navigate("/", { state: { flash: result.data } });
+    yield put({ type: "LOGOUT" });
   } catch (e) {
     let errorMessages = Object.values(e.response.data.errorMessages);
     errorMessages = [].concat.apply([], errorMessages);
