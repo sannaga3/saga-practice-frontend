@@ -7,3 +7,7 @@ export const getPosts = () => {
 export const storePost = (params) => {
   return client.post("/posts", params);
 };
+
+export const updatePost = (params) => {
+  return client.patch(`/posts/${params.id}`, params);
+};

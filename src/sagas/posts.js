@@ -4,6 +4,7 @@ import * as api from "../api/posts";
 import {
   getPostsSuccess,
   storePostSuccess,
+  updatePostSuccess,
   requestFailed,
 } from "../slices/postSlice";
 
@@ -17,6 +18,11 @@ export const getPostsRequest = () => ({
 
 export const storePostRequest = (formValues, navigate) => ({
   type: "STORE_POST_REQUEST",
+  payload: { formValues, navigate },
+});
+
+export const updatePostRequest = (formValues, navigate) => ({
+  type: "UPDATE_POST_REQUEST",
   payload: { formValues, navigate },
 });
 
@@ -38,16 +44,28 @@ function* getPosts() {
 function* storePost({ payload }) {
   try {
     const result = yield call(api.storePost, payload.formValues);
-    console.log(payload);
     yield put(storePostSuccess(result.data));
     payload.navigate("/posts", {
       state: { flash: "新しい投稿を作成しました" },
     });
   } catch (e) {
-    console.log(e);
     let errorMessages = Object.values(e.response.data.errorMessages);
     errorMessages = [].concat.apply([], errorMessages);
     yield put(requestFailed({ storePostError: errorMessages }));
+  }
+}
+
+function* updatePost({ payload }) {
+  try {
+    const result = yield call(api.updatePost, payload.formValues);
+    yield put(updatePostSuccess(result.data));
+    payload.navigate("/posts", {
+      state: { flash: "投稿を更新しました" },
+    });
+  } catch (e) {
+    let errorMessages = Object.values(e.response.data.errorMessages);
+    errorMessages = [].concat.apply([], errorMessages);
+    yield put(requestFailed({ updatePostError: errorMessages }));
   }
 }
 
@@ -63,6 +81,14 @@ function* watchStorePostRequest() {
   yield takeEvery("STORE_POST_REQUEST", storePost);
 }
 
-const postSagas = [fork(watchGetPostsRequest), fork(watchStorePostRequest)];
+function* watchUpdatePostRequest() {
+  yield takeEvery("UPDATE_POST_REQUEST", updatePost);
+}
+
+const postSagas = [
+  fork(watchGetPostsRequest),
+  fork(watchStorePostRequest),
+  fork(watchUpdatePostRequest),
+];
 
 export default postSagas;

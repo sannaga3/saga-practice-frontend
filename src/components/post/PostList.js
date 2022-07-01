@@ -11,7 +11,7 @@ export const PostList = () => {
   const location = useLocation();
 
   const posts = useSelector((state) => state.post.posts, shallowEqual);
-  const errors = useSelector((state) => state.user.errors);
+  const errors = useSelector((state) => state.post.errors);
 
   useEffect(() => {
     dispatch(getPostsRequest());
