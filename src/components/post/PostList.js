@@ -11,11 +11,15 @@ export const PostList = () => {
   const location = useLocation();
 
   const posts = useSelector((state) => state.post.posts);
+  const status = useSelector((state) => state.post.postsStatus);
   const errors = useSelector((state) => state.post.errors);
 
+  // apiを叩く際にstatusを更新することで、毎回dispatchするのを防ぐ
   useEffect(() => {
-    dispatch(getPostsRequest());
-  }, [dispatch]);
+    if (status === "idle") {
+      dispatch(getPostsRequest());
+    }
+  }, [dispatch, status]);
 
   return (
     <div className="flexCol items-center">

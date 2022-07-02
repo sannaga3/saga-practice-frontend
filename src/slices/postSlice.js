@@ -1,15 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const postSlice = createSlice({
   name: "posts",
   initialState: {
     post: {},
     posts: [],
+    postsStatus: "idle",
     errors: {},
   },
   reducers: {
     getPostsSuccess: (state, action) => {
       state.posts = [...action.payload];
+      state.postsStatus = "complete";
       state.errors = {};
     },
     storePostSuccess: (state, action) => {
@@ -23,6 +25,7 @@ const postSlice = createSlice({
     },
     requestFailed: (state, action) => {
       state.errors = action.payload;
+      state.posts.postsStatus = "idle";
     },
   },
 });
