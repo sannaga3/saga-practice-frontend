@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { logoutUserRequest } from "../../sagas/users";
+import { selectCurrentUser } from "../../slices/userSlice";
 
 export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector((state) => state.user.currentUser);
+  const user = useSelector(selectCurrentUser);
 
   const handleLoout = () => {
     if (!window.confirm("ログアウトしますか？")) {

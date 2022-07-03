@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { storePostRequest, updatePostRequest } from "../../sagas/posts";
 import { Message } from "../layout/message/Message";
+import { selectCurrentUser } from "../../slices/userSlice";
 
 export const PostForm = ({ action, post = null }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const user = useSelector((state) => state.user.currentUser);
+  const user = useSelector(selectCurrentUser);
   const errors = useSelector((state) => state.post.errors);
 
   const submitForm = () => {

@@ -23,7 +23,7 @@ export const Signup = () => {
   };
 
   return (
-    <div className="flexCol items-center">
+    <div className="flexCol items-center pt-10">
       <div className="w-1/2 bg-white p-5 border rounded-lg shadow-xl">
         <h1 className="titleText">Signup</h1>
         <Message errors={errors.signupError ?? ""} location={location} />

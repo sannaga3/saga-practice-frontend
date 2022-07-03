@@ -4,13 +4,7 @@ export const Posts = ({ posts }) => {
   return (
     <div className="flexCol items-center">
       {posts.length > 0 && (
-        <div className="w-5/6 space-y-1 mt-5 mb-2 p-1">
-          <div className="flex justify-left space-x-5 border-b-2 border-black p-1">
-            <div className="w-1/6 font-bold">ユーザー名</div>
-            <div className="w-1/6 font-bold">タイトル</div>
-            <div className="w-3/6 font-bold">内容</div>
-            <div className="w-1/6 font-bold">ボタン</div>
-          </div>
+        <div className="w-5/6 mt-5 mb-2 p-1">
           {posts.map((post) => {
             return (
               <div key={post.id} className="border-b border-gray-500 p-1">
