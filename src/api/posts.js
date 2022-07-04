@@ -11,3 +11,7 @@ export const storePost = (params) => {
 export const updatePost = (params) => {
   return client.patch(`/posts/${params.id}`, params);
 };
+
+export const deletePost = (userId) => {
+  return client.delete(`/posts/${userId}`);
+};

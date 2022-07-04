@@ -5,6 +5,7 @@ import {
   getPostsSuccess,
   storePostSuccess,
   updatePostSuccess,
+  deletePostSuccess,
   requestFailed,
 } from "../slices/postSlice";
 
@@ -24,6 +25,11 @@ export const storePostRequest = (formValues, navigate) => ({
 export const updatePostRequest = (formValues, navigate) => ({
   type: "UPDATE_POST_REQUEST",
   payload: { formValues, navigate },
+});
+
+export const deletePostRequest = (userId, navigate) => ({
+  type: "DELETE_POST_REQUEST",
+  payload: { userId, navigate },
 });
 
 //------------------------------------------------------
@@ -69,6 +75,20 @@ function* updatePost({ payload }) {
   }
 }
 
+function* deletePost({ payload }) {
+  try {
+    const result = yield call(api.deletePost, payload.userId);
+    yield put(deletePostSuccess(result.data));
+    payload.navigate("/posts", {
+      state: { flash: "投稿を削除しました" },
+    });
+  } catch (e) {
+    let errorMessages = Object.values(e.response.data.errorMessages);
+    errorMessages = [].concat.apply([], errorMessages);
+    yield put(requestFailed({ deletePostError: errorMessages }));
+  }
+}
+
 //------------------------------------------------------
 // saga watchers
 //------------------------------------------------------
@@ -85,10 +105,15 @@ function* watchUpdatePostRequest() {
   yield takeEvery("UPDATE_POST_REQUEST", updatePost);
 }
 
+function* watchDeletePostRequest() {
+  yield takeEvery("DELETE_POST_REQUEST", deletePost);
+}
+
 const postSagas = [
   fork(watchGetPostsRequest),
   fork(watchStorePostRequest),
   fork(watchUpdatePostRequest),
+  fork(watchDeletePostRequest),
 ];
 
 export default postSagas;

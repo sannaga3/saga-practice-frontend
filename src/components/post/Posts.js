@@ -1,6 +1,18 @@
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { deletePostRequest } from "../../sagas/posts";
 
 export const Posts = ({ posts }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleDelete = (postId) => {
+    if (!window.confirm("本当に投稿を削除しますか？")) {
+      return false;
+    }
+    dispatch(deletePostRequest(postId, navigate));
+  };
+
   return (
     <div className="flexCol items-center">
       {posts.length > 0 && (
@@ -12,7 +24,7 @@ export const Posts = ({ posts }) => {
                   <div className="w-1/6">{post.user_name}</div>
                   <div className="w-1/6">{post.title}</div>
                   <div className="w-3/6">{post.content}</div>
-                  <div className="w-1/6 flex space-x-5">
+                  <div className="w-1/6 flex items-center space-x-5">
                     <Link
                       to={`/post/${post.id}/edit`}
                       state={post}
@@ -20,9 +32,13 @@ export const Posts = ({ posts }) => {
                     >
                       変更
                     </Link>
-                    <Link to={"#"} className="delete-link">
+                    <button
+                      type="button"
+                      className="delete-link"
+                      onClick={() => handleDelete(post.id)}
+                    >
                       削除
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>

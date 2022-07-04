@@ -5,7 +5,7 @@ export const EditPost = () => {
   const { state } = useLocation();
 
   return (
-    <div className="flexCol items-center">
+    <div className="flexCol items-center pt-10">
       <div className="w-5/6 bg-white p-5 border rounded-lg shadow-xl">
         <h1 className="titleText">EditPost</h1>
         <PostForm action="update" post={state} />
