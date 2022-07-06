@@ -1,24 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { clearError } from "../util/handleErrors";
 
 // Sliceを生成(name,initialState,reducersを引数に持つ)
 const userSlice = createSlice({
   name: "user",
   initialState: {
     currentUser: {},
-    errors: {},
+    errors: { status: false, messages: [], id: null },
   },
   reducers: {
     loginSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.errors = {};
+      state.errors = clearError();
     },
     signupSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.errors = {};
+      state.errors = clearError();
     },
     requestFailed: (state, action) => {
       state.currentUser = {};
-      state.errors = action.payload;
+      state.errors = {
+        status: action.payload.status,
+        messages: action.payload.messages,
+        id: action.payload.id ?? null,
+      };
     },
   },
 });

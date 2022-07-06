@@ -8,6 +8,7 @@ import {
   deletePostSuccess,
   requestFailed,
 } from "../slices/postSlice";
+import { handleErrors } from "../util/handleErrors";
 
 //------------------------------------------------------
 // saga actions
@@ -41,9 +42,8 @@ function* getPosts() {
     const result = yield call(api.getPosts);
     yield put(getPostsSuccess(result.data));
   } catch (e) {
-    let errorMessages = Object.values(e.response.data.errorMessages);
-    errorMessages = [].concat.apply([], errorMessages);
-    yield put(requestFailed({ getPostsError: errorMessages }));
+    const errorMessages = handleErrors(e);
+    yield put(requestFailed({ status: "index", messages: errorMessages }));
   }
 }
 
@@ -55,9 +55,8 @@ function* storePost({ payload }) {
       state: { flash: "新しい投稿を作成しました" },
     });
   } catch (e) {
-    let errorMessages = Object.values(e.response.data.errorMessages);
-    errorMessages = [].concat.apply([], errorMessages);
-    yield put(requestFailed({ storePostError: errorMessages }));
+    const errorMessages = handleErrors(e);
+    yield put(requestFailed({ status: "store", messages: errorMessages }));
   }
 }
 
@@ -69,9 +68,14 @@ function* updatePost({ payload }) {
       state: { flash: "投稿を更新しました" },
     });
   } catch (e) {
-    let errorMessages = Object.values(e.response.data.errorMessages);
-    errorMessages = [].concat.apply([], errorMessages);
-    yield put(requestFailed({ updatePostError: errorMessages }));
+    const errorMessages = handleErrors(e);
+    yield yield put(
+      requestFailed({
+        status: "update",
+        messages: errorMessages,
+        id: payload.formValues.id,
+      })
+    );
   }
 }
 
@@ -83,9 +87,14 @@ function* deletePost({ payload }) {
       state: { flash: "投稿を削除しました" },
     });
   } catch (e) {
-    let errorMessages = Object.values(e.response.data.errorMessages);
-    errorMessages = [].concat.apply([], errorMessages);
-    yield put(requestFailed({ deletePostError: errorMessages }));
+    const errorMessages = handleErrors(e);
+    yield put(
+      requestFailed({
+        status: "delete",
+        messages: errorMessages,
+        id: payload.userId,
+      })
+    );
   }
 }
 

@@ -1,17 +1,25 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { storePostRequest, updatePostRequest } from "../../sagas/posts";
-import { Message } from "../layout/message/Message";
 import { selectCurrentUser } from "../../slices/userSlice";
+import { ErrorMessage } from "../layout/message/ErrorMessage";
+import { FlashMessage } from "../layout/message/FlashMessage";
 
 export const PostForm = ({ action, post = null }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const user = useSelector(selectCurrentUser);
   const errors = useSelector((state) => state.post.errors);
+
+  const isErrorUpdatedId =
+    errors.status && post ? post.id === errors.id : false;
+
+  const isShowErrors =
+    action === "store" && errors.status
+      ? action === errors.status
+      : isErrorUpdatedId;
 
   const submitForm = () => {
     const formValues = {
@@ -28,12 +36,7 @@ export const PostForm = ({ action, post = null }) => {
 
   return (
     <>
-      {Object.keys(errors).length > 0 && (
-        <Message
-          errors={errors.storePostError || errors.updatePostError}
-          location={location}
-        />
-      )}
+      {isShowErrors && <ErrorMessage messages={errors.messages} />}
       <form className="flexCol items-center space-y-8 py-8">
         <div className="form-content space-x-5">
           <label className="label w-32">title</label>

@@ -2,12 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { signupUserRequest } from "../../sagas/users";
-import { Message } from "../layout/message/Message";
+import { ErrorMessage } from "../layout/message/ErrorMessage";
+import { FlashMessage } from "../layout/message/FlashMessage";
 
 export const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation(); //location.stateでフラッシュメッセージを取得
+  const { state } = useLocation();
 
   const errors = useSelector((state) => state.user.errors);
 
@@ -26,7 +27,12 @@ export const Signup = () => {
     <div className="flexCol items-center pt-10">
       <div className="w-1/2 bg-white p-5 border rounded-lg shadow-xl">
         <h1 className="titleText">Signup</h1>
-        <Message errors={errors.signupError ?? ""} location={location} />
+        {errors.status && errors.status === "signup" && (
+          <ErrorMessage messages={errors.messages} />
+        )}
+        {!errors.status && state && Object.keys(state)[0] === "flash" && (
+          <FlashMessage flash={state.flash} />
+        )}
         <form className="flexCol items-center space-y-8 pt-8">
           <div className="form-content space-x-5">
             <label className="label w-32">name: </label>

@@ -1,10 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
-import { Message } from "../layout/message/Message";
+import { ErrorMessage } from "../layout/message/ErrorMessage";
+import { FlashMessage } from "../layout/message/FlashMessage";
 import { Posts } from "./Posts";
 import { getPostsRequest } from "../../sagas/posts";
-import { useEffect } from "react";
+
 import {
   changePostsType,
   selectAllPosts,
@@ -14,7 +16,7 @@ import { selectCurrentUser } from "../../slices/userSlice";
 
 export const PostList = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const { state } = useLocation();
 
   const posts = useSelector(selectAllPosts);
   const user = useSelector(selectCurrentUser);
@@ -37,7 +39,14 @@ export const PostList = () => {
         <div className="flexCol items-center sticky top-0 bg-white rounded-t-lg pt-5 px-5">
           <h1 className="titleText">PostList</h1>
           <div className="w-2/3">
-            <Message errors={errors} location={location} />
+            {errors.status &&
+              errors.status !== "store" &&
+              errors.status !== "update" && (
+                <ErrorMessage messages={errors.messages} />
+              )}
+            {!errors.status && state && Object.keys(state)[0] === "flash" && (
+              <FlashMessage flash={state.flash} />
+            )}
           </div>
           <div className="w-full flex justify-end p-2">
             <div className="flex items-center space-x-2">

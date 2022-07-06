@@ -1,5 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+import { clearError } from "../util/handleErrors";
 
 const postSlice = createSlice({
   name: "posts",
@@ -8,35 +8,38 @@ const postSlice = createSlice({
     posts: [],
     postsStatus: "idle",
     postsType: "AllPosts",
-    errors: {},
+    errors: { status: false, messages: [], id: null },
   },
   reducers: {
     getPostsSuccess: (state, action) => {
       state.posts = [...action.payload];
       state.postsStatus = "complete";
-      state.errors = {};
+      state.errors = clearError();
     },
     storePostSuccess: (state, action) => {
       state.posts = [action.payload, ...state.posts];
-      state.errors = {};
+      state.errors = clearError();
     },
     updatePostSuccess: (state, action) => {
       const target = findIndexById(state, action.payload[0].id);
       state.posts.splice(target, 1, action.payload[0]);
-      state.errors = {};
+      state.errors = clearError();
     },
     deletePostSuccess: (state, action) => {
       const userId = findIndexById(state, parseInt(action.payload.user_id));
       state.posts.splice(userId, 1);
-      state.errors = {};
+      state.errors = clearError();
     },
     changePostsType: (state, action) => {
       state.postsType = action.payload;
-      state.errors = {};
+      state.errors = clearError();
     },
     requestFailed: (state, action) => {
-      state.errors = action.payload;
-      state.posts.postsStatus = "idle";
+      state.errors = {
+        status: action.payload.status,
+        messages: action.payload.messages,
+        id: action.payload.id ?? null,
+      };
     },
   },
 });

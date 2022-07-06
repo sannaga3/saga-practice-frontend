@@ -6,6 +6,7 @@ import {
   signupSuccess,
   requestFailed,
 } from "../slices/userSlice";
+import { handleErrors } from "../util/handleErrors";
 
 //------------------------------------------------------
 // saga actions
@@ -40,9 +41,8 @@ function* loginUser({ payload }) {
 
     payload.navigate("/posts", { state: { flash: "ログインしました" } });
   } catch (e) {
-    let errorMessages = Object.values(e.response.data.errorMessages);
-    errorMessages = [].concat.apply([], errorMessages);
-    yield put(requestFailed({ loginError: errorMessages }));
+    const errorMessages = handleErrors(e);
+    yield put(requestFailed({ status: "login", messages: errorMessages }));
   }
 }
 
@@ -52,9 +52,8 @@ function* logoutUser({ payload }) {
     payload.navigate("/", { state: { flash: result.data } });
     yield put({ type: "LOGOUT" });
   } catch (e) {
-    let errorMessages = Object.values(e.response.data.errorMessages);
-    errorMessages = [].concat.apply([], errorMessages);
-    yield put(requestFailed(errorMessages));
+    const errorMessages = handleErrors(e);
+    yield put(requestFailed({ status: "logout", messages: errorMessages }));
   }
 }
 
@@ -66,9 +65,8 @@ function* signupUser({ payload }) {
       state: { flash: "アカウントを登録しました" },
     });
   } catch (e) {
-    let errorMessages = Object.values(e.response.data.errorMessages);
-    errorMessages = [].concat.apply([], errorMessages);
-    yield put(requestFailed({ signupError: errorMessages }));
+    const errorMessages = handleErrors(e);
+    yield put(requestFailed({ status: "signup", messages: errorMessages }));
   }
 }
 
