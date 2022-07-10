@@ -4,7 +4,6 @@ import { clearError } from "../util/handleErrors";
 const postSlice = createSlice({
   name: "posts",
   initialState: {
-    post: {},
     posts: [],
     postsStatus: "idle",
     postsType: "AllPosts",

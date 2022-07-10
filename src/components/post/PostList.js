@@ -48,7 +48,7 @@ export const PostList = () => {
               <FlashMessage flash={state.flash} />
             )}
           </div>
-          <div className="w-full flex justify-end p-2">
+          <div className="w-5/6  flex justify-end p-2">
             <div className="flex items-center space-x-2">
               <div className="w-24">postsType :</div>
               <div className="flex items-center">
@@ -78,8 +78,10 @@ export const PostList = () => {
           <div className="w-5/6 flex justify-left space-x-5 border-b-2 border-black px-2 pt-3 pb-2">
             <div className="w-1/6 font-bold">ユーザー名</div>
             <div className="w-1/6 font-bold">タイトル</div>
-            <div className="w-3/6 font-bold">内容</div>
-            <div className="w-1/6 font-bold">ボタン</div>
+            <div className="w-3/6 font-bold flex-col">
+              <div>内容</div>
+            </div>
+            <div className="w-1/6 font-bold">フォト</div>
           </div>
         </div>
         <div className="px-5 pb-5">
