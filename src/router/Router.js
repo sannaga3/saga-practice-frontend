@@ -7,6 +7,7 @@ import { Signup } from "../components/auth/Signup";
 import { PostList } from "../components/post/PostList";
 import { CreatePost } from "../components/post/CreatePost";
 import { EditPost } from "../components/post/EditPost";
+import { TaskList } from "../components/task/TaskList";
 
 export const Router = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -31,6 +32,7 @@ export const Router = () => {
     <BrowserRouter>
       <DefaultLayout>
         <Routes>
+          <Route path="/tasks" element={handleAuth(<TaskList />)} />
           <Route path="/post/:postid/edit" element={handleAuth(<EditPost />)} />
           <Route path="/posts/create" element={handleAuth(<CreatePost />)} />
           <Route path="/posts" element={handleAuth(<PostList />)} />
