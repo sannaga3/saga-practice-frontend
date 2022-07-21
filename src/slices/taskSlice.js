@@ -7,12 +7,14 @@ const taskSlice = createSlice({
     tasks: [],
     tasksStatus: "idle",
     tasksType: "AllTasks",
+    statusType: "All",
     errors: { status: false, messages: [], id: null },
   },
   reducers: {
     getTasksSuccess: (state, action) => {
       state.tasks = [...action.payload];
       state.tasksStatus = "complete";
+      state.tasksCompletedStatus = "AllStatus";
       state.errors = clearError();
     },
     storeTaskSuccess: (state, action) => {
@@ -31,6 +33,10 @@ const taskSlice = createSlice({
     },
     changeTasksType: (state, action) => {
       state.tasksType = action.payload;
+      state.errors = clearError();
+    },
+    changeStatusType: (state, action) => {
+      state.statusType = action.payload;
       state.errors = clearError();
     },
     requestFailed: (state, action) => {
@@ -53,6 +59,7 @@ export const {
   updateTaskSuccess,
   deleteTaskSuccess,
   changeTasksType,
+  changeStatusType,
   requestFailed,
 } = taskSlice.actions;
 
@@ -61,8 +68,21 @@ const findIndexById = (state, taskId) =>
 
 // Selector
 export const selectAllTasks = (state) => state.task.tasks;
+export const selectTasksType = (state) => state.task.tasksType;
+export const selectStatusType = (state) => state.task.statusType;
 
-export const selectTasksByUser = createSelector(
-  [selectAllTasks, (state, userId) => userId],
-  (tasks, userId) => tasks.filter((task) => task.user_id === userId)
+export const selectTasksByUserAndStatusType = createSelector(
+  [
+    selectAllTasks,
+    (state, userId) => userId,
+    selectTasksType,
+    selectStatusType,
+  ],
+  (tasks, userId, tasksType, statusType) => {
+    if (tasksType === "MyTasks")
+      tasks = tasks.filter((task) => task.user_id === userId);
+    if (statusType !== "All")
+      tasks = tasks.filter((task) => task.status === statusType);
+    return tasks;
+  }
 );

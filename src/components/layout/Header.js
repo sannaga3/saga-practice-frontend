@@ -37,6 +37,12 @@ export const Header = () => {
             <Link to="/tasks" className="hover:cursol-pointer hover:scale-110">
               TaskList
             </Link>
+            <Link
+              to="/tasks/create"
+              className="hover:cursol-pointer hover:scale-110"
+            >
+              CreateTask
+            </Link>
             <button
               type="button"
               onClick={handleLoout}
