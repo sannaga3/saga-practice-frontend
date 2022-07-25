@@ -28,9 +28,9 @@ export const updatePostRequest = (formValues, navigate) => ({
   payload: { formValues, navigate },
 });
 
-export const deletePostRequest = (userId, navigate) => ({
+export const deletePostRequest = (postId, navigate) => ({
   type: "DELETE_POST_REQUEST",
-  payload: { userId, navigate },
+  payload: { postId, navigate },
 });
 
 //------------------------------------------------------
@@ -81,7 +81,7 @@ function* updatePost({ payload }) {
 
 function* deletePost({ payload }) {
   try {
-    const result = yield call(api.deletePost, payload.userId);
+    const result = yield call(api.deletePost, payload.postId);
     yield put(deletePostSuccess(result.data));
     payload.navigate("/posts", {
       state: { flash: "投稿を削除しました" },
@@ -92,7 +92,7 @@ function* deletePost({ payload }) {
       requestFailed({
         status: "delete",
         messages: errorMessages,
-        id: payload.userId,
+        id: payload.postId,
       })
     );
   }

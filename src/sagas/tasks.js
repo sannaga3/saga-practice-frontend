@@ -28,9 +28,9 @@ export const updateTaskRequest = (formValues, navigate) => ({
   payload: { formValues, navigate },
 });
 
-export const deleteTaskRequest = (userId, navigate) => ({
+export const deleteTaskRequest = (taskId, navigate) => ({
   type: "DELETE_TASK_REQUEST",
-  payload: { userId, navigate },
+  payload: { taskId, navigate },
 });
 
 //------------------------------------------------------
@@ -81,7 +81,7 @@ function* updateTask({ payload }) {
 
 function* deleteTask({ payload }) {
   try {
-    const result = yield call(api.deleteTask, payload.userId);
+    const result = yield call(api.deleteTask, payload.taskId);
     yield put(deleteTaskSuccess(result.data));
     payload.navigate("/tasks", {
       state: { flash: "投稿を削除しました" },
@@ -92,7 +92,7 @@ function* deleteTask({ payload }) {
       requestFailed({
         status: "delete",
         messages: errorMessages,
-        id: payload.userId,
+        id: payload.taskId,
       })
     );
   }

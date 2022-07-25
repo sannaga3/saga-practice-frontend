@@ -27,8 +27,8 @@ const taskSlice = createSlice({
       state.errors = clearError();
     },
     deleteTaskSuccess: (state, action) => {
-      const userId = findIndexById(state, parseInt(action.payload.user_id));
-      state.tasks.splice(userId, 1);
+      const taskId = findIndexById(state, parseInt(action.payload.id));
+      state.tasks.splice(taskId, 1);
       state.errors = clearError();
     },
     changeTasksType: (state, action) => {

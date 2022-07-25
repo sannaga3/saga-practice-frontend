@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { ErrorMessage } from "../layout/message/ErrorMessage";
 import { FlashMessage } from "../layout/message/FlashMessage";
@@ -31,6 +31,8 @@ export const TaskList = () => {
   const status = useSelector((state) => state.task.tasksStatus);
   const errors = useSelector((state) => state.task.errors);
 
+  const [tableType, setTableType] = useState("material");
+
   // apiを叩く際にstatusを更新することで、毎回dispatchするのを防ぐ
   useEffect(() => {
     if (status === "idle") {
@@ -41,7 +43,7 @@ export const TaskList = () => {
   return (
     <div className="flexCol items-center py-10">
       <div className="w-5/6 border rounded-lg shadow-xl bg-white">
-        <div className="flexCol items-center sticky top-0 bg-white rounded-t-lg pt-5 px-5">
+        <div className="flexCol items-center bg-white rounded-t-lg pt-5 px-5">
           <h1 className="titleText">TaskList</h1>
           <div className="w-2/3">
             {errors.status &&
@@ -53,7 +55,35 @@ export const TaskList = () => {
               <FlashMessage flash={state.flash} />
             )}
           </div>
-          <div className="w-5/6 flex justify-start p-2">
+          {/* TableType */}
+          <div className="w-5/6 flex justify-start p-1">
+            <div className="flex items-center space-x-2">
+              <div className="w-24">tableType :</div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="TableType"
+                  onClick={(e) => setTableType(e.target.value)}
+                  value="datagrid"
+                />
+                <span className="inline-block px-1">Datagrid</span>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="TableType"
+                  onClick={(e) => {
+                    setTableType(e.target.value);
+                  }}
+                  defaultChecked={tableType === "material"}
+                  value="material"
+                />
+                <span className="inline-block px-1">MaterialTable</span>
+              </div>
+            </div>
+          </div>
+          {/* tasksType */}
+          <div className="w-5/6 flex justify-start p-1">
             <div className="flex items-center space-x-2">
               <div className="w-24">tasksType :</div>
               <div className="flex items-center">
@@ -80,7 +110,8 @@ export const TaskList = () => {
               </div>
             </div>
           </div>
-          <div className="w-5/6  flex justify-start pb-3 px-2">
+          {/* statusType */}
+          <div className="w-5/6 flex justify-start pb-3 p-1">
             <div className="flex items-center space-x-2">
               <div className="w-24">statusType :</div>
               <div className="flex items-center">
@@ -110,7 +141,7 @@ export const TaskList = () => {
                   onClick={() => {
                     dispatch(changeStatusType("1"));
                   }}
-                  defaultChecked={statusType === "progress"}
+                  defaultChecked={statusType === "1"}
                 />
                 <span className="inline-block px-1">inProgress</span>
               </div>
@@ -130,16 +161,14 @@ export const TaskList = () => {
         </div>
         <div className="px-5 pb-5">
           {tasks.length > 0 && (
-            <>
-              {/* material ui datagrid */}
-              <Tasks
-                tasks={
-                  tasksType === "AllTasks" && statusType === "All"
-                    ? tasks
-                    : tasksByUserAndStatusType
-                }
-              />
-            </>
+            <Tasks
+              tasks={
+                tasksType === "AllTasks" && statusType === "All"
+                  ? tasks
+                  : tasksByUserAndStatusType
+              }
+              tableType={tableType}
+            />
           )}
         </div>
       </div>

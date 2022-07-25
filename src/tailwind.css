@@ -29,6 +29,9 @@
 .form-content {
   @apply flexRow justify-start items-center;
 }
+.show-link {
+  @apply text-teal-500 hover:scale-110 hover:font-bold;
+}
 .edit-link {
   @apply text-blue-500 hover:scale-110 hover:font-bold;
 }

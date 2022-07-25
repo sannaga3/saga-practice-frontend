@@ -25,8 +25,9 @@ const postSlice = createSlice({
       state.errors = clearError();
     },
     deletePostSuccess: (state, action) => {
-      const userId = findIndexById(state, parseInt(action.payload.user_id));
-      state.posts.splice(userId, 1);
+      console.log(action.payload);
+      const postId = findIndexById(state, parseInt(action.payload.id));
+      state.posts.splice(postId, 1);
       state.errors = clearError();
     },
     changePostsType: (state, action) => {
