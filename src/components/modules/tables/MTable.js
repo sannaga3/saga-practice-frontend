@@ -125,7 +125,11 @@ export const MTable = ({ datas, title }) => {
         whiteSpace: "nowrap",
       },
       render: (row) => (
-        <Link to={`/task/${row.id}`} state={row} className="show-link">
+        <Link
+          to={`/task/${row.id}`}
+          state={{ task: row }}
+          className="show-link"
+        >
           詳細
         </Link>
       ),

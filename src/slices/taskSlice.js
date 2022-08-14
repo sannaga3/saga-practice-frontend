@@ -63,7 +63,7 @@ export const {
   requestFailed,
 } = taskSlice.actions;
 
-const findIndexById = (state, taskId) =>
+export const findIndexById = (state, taskId) =>
   state.tasks.findIndex((task) => task.id === taskId);
 
 // Selector

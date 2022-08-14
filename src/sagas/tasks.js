@@ -52,7 +52,7 @@ function* storeTask({ payload }) {
     const result = yield call(api.storeTask, payload.formValues);
     yield put(storeTaskSuccess(result.data));
     payload.navigate("/tasks", {
-      state: { flash: "新しい投稿を作成しました" },
+      state: { flash: "新しいタスクを作成しました" },
     });
   } catch (e) {
     const errorMessages = handleErrors(e);
@@ -65,7 +65,7 @@ function* updateTask({ payload }) {
     const result = yield call(api.updateTask, payload.formValues);
     yield put(updateTaskSuccess(result.data));
     payload.navigate("/tasks", {
-      state: { flash: "投稿を更新しました" },
+      state: { flash: "タスクを更新しました" },
     });
   } catch (e) {
     const errorMessages = handleErrors(e);
@@ -84,7 +84,7 @@ function* deleteTask({ payload }) {
     const result = yield call(api.deleteTask, payload.taskId);
     yield put(deleteTaskSuccess(result.data));
     payload.navigate("/tasks", {
-      state: { flash: "投稿を削除しました" },
+      state: { flash: "タスクを削除しました" },
     });
   } catch (e) {
     const errorMessages = handleErrors(e);

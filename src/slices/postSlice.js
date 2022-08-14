@@ -25,7 +25,6 @@ const postSlice = createSlice({
       state.errors = clearError();
     },
     deletePostSuccess: (state, action) => {
-      console.log(action.payload);
       const postId = findIndexById(state, parseInt(action.payload.id));
       state.posts.splice(postId, 1);
       state.errors = clearError();

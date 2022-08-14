@@ -1,22 +1,26 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
+import { ExecutedTaskList } from "../executedTask/ExecutedTaskList";
+
 export const ShowTask = () => {
-  const { state } = useLocation();
+  const location = useLocation();
+
+  const { task, flash } = location.state;
 
   const [showType, setShowType] = useState("contents");
 
   // オブジェクトを配列に変換
-  let stateToArr = Object.entries(state).map(([key, value]) => ({
+  let taskToArr = Object.entries(task).map(([key, value]) => ({
     key,
     value,
   }));
-  stateToArr = stateToArr.filter((state) => state.key !== "tableData");
+  taskToArr = taskToArr.filter((task) => task.key !== "tableData");
 
   const statusColor =
-    state.status === "0"
+    task.status === "0"
       ? "bg-blue-500"
-      : state.status === "1"
+      : task.status === "1"
       ? "bg-orange-500"
       : "bg-red-500";
 
@@ -53,19 +57,19 @@ export const ShowTask = () => {
                 <div
                   className={`absolute top-0 right-0 w-20 h-10 flex justify-center items-center text-white ${statusColor} z-10"`}
                 >
-                  {state.status === "0" && "未着手"}
-                  {state.status === "1" && "進行中"}
-                  {state.status === "2" && "終了"}
+                  {task.status === "0" && "未着手"}
+                  {task.status === "1" && "進行中"}
+                  {task.status === "2" && "終了"}
                 </div>
                 <div className="flexRow justify-center items-center text-left mt-8">
                   <div className="w-[300px] pb-2 text-2xl">タイトル: </div>
                   <div className="w-[300px] pb-2 text-2xl">
-                    {state.task_name}
+                    {task.task_name}
                   </div>
                 </div>
                 <div className="flexRow justify-end mr-28 mt-3">
                   <div className="w-[100px] pb-2">作成者</div>
-                  <div className="w-[100px] pb-2">{state.user_name}</div>
+                  <div className="w-[100px] pb-2">{task.user_name}</div>
                 </div>
                 <div className="space-y-4 mt-3 py-10">
                   <div className="flexRow justify-center">
@@ -73,7 +77,7 @@ export const ShowTask = () => {
                       期間
                     </div>
                     <div className="w-[300px] border-b border-gray-500 pb-2">
-                      {state.schedule_start} 〜 {state.schedule_end}
+                      {task.schedule_start} 〜 {task.schedule_end}
                     </div>
                   </div>
                   <div className="flexRow justify-center">
@@ -81,7 +85,7 @@ export const ShowTask = () => {
                       目的
                     </div>
                     <div className="w-[300px] border-b border-gray-500 pb-2">
-                      {state.purpose}
+                      {task.purpose}
                     </div>
                   </div>
                   <div className="flexRow justify-center">
@@ -89,11 +93,11 @@ export const ShowTask = () => {
                       内容
                     </div>
                     <div className="w-[300px] border-b border-gray-500 pb-2">
-                      <span className="font-bold">{state.action}</span>
+                      <span className="font-bold">{task.action}</span>
                       <span className="px-2">を</span>
                       <span className="font-bold pr-2">
-                        {state.target_times}
-                        {state.times_unit}
+                        {task.target_times}
+                        {task.times_unit}
                       </span>
                       行う
                     </div>
@@ -103,7 +107,7 @@ export const ShowTask = () => {
                       備考
                     </div>
                     <div className="w-[300px] border-b border-gray-500 pb-2">
-                      {state.remarks}
+                      {task.remarks}
                     </div>
                   </div>
                 </div>
@@ -111,11 +115,11 @@ export const ShowTask = () => {
             ) : (
               <>
                 {showType === "structure" &&
-                  stateToArr.map((state) => {
+                  taskToArr.map((task) => {
                     return (
                       <div className="flexRow justify-center px-5 py-2">
-                        <div className="w-[300px]">{state.key}</div>
-                        <div className="w-[300px]">{state.value}</div>
+                        <div className="w-[300px]">{task.key}</div>
+                        <div className="w-[300px]">{task.value}</div>
                       </div>
                     );
                   })}
@@ -123,6 +127,9 @@ export const ShowTask = () => {
             )}
           </div>
         </div>
+      </div>
+      <div className="w-full mt-14 mb-10">
+        <ExecutedTaskList task={task} flash={flash} />
       </div>
     </div>
   );

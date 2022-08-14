@@ -2,12 +2,14 @@ import { combineReducers } from "redux";
 import userReducer from "./slices/userSlice";
 import postReducer from "./slices/postSlice";
 import taskReducer from "./slices/taskSlice";
+import executedTaskRreducer from "./slices/executedTaskSlice";
 
 // stateが初期状態のappReducerを作成しておく
 const appReducer = combineReducers({
   user: userReducer,
   post: postReducer,
   task: taskReducer,
+  executedTask: executedTaskRreducer,
 });
 
 // ログアウト処理で dispatch({ type: "LOGOUT" } とすると、rootReducerがappReducerに置き換わりstateが初期化される
