@@ -1,4 +1,5 @@
 import { client } from "./index";
+import { api } from "./index";
 
 export const getExecutedTasks = (taskId) => {
   return client.get("/executed_tasks", { params: { task_id: taskId } });

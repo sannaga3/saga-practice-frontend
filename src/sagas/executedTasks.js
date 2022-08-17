@@ -1,6 +1,6 @@
 import { takeEvery, call, fork, put, select } from "redux-saga/effects";
 
-import * as api from "../api/executedTasks";
+import { api } from "../api/index";
 import {
   getExecutedTasksSuccess,
   storeExecutedTaskSuccess,
@@ -41,8 +41,10 @@ export const deleteExecutedTaskRequest = (executeTask, navigate) => ({
 
 function* getExecutedTasks({ payload }) {
   try {
-    const result = yield call(api.getExecutedTasks, payload.taskId);
-    yield put(getExecutedTasksSuccess(result.data));
+    const result = yield call(api, "/executed_tasks", "GET", {
+      task_id: payload.taskId,
+    });
+    yield put(getExecutedTasksSuccess(result));
   } catch (e) {
     const errorMessages = handleErrors(e);
     yield put(requestFailed({ status: "index", messages: errorMessages }));
@@ -51,8 +53,13 @@ function* getExecutedTasks({ payload }) {
 
 function* storeExecutedTask({ payload }) {
   try {
-    const result = yield call(api.storeExecutedTask, payload.formValues);
-    yield put(storeExecutedTaskSuccess(result.data));
+    const result = yield call(
+      api,
+      "/executed_tasks",
+      "POST",
+      payload.formValues
+    );
+    yield put(storeExecutedTaskSuccess(result));
     yield put(changeIsShowFormAndSelectedExecutedTask(null));
 
     const tasks = yield select((state) => state.task.tasks);
@@ -69,8 +76,13 @@ function* storeExecutedTask({ payload }) {
 
 function* updateExecutedTask({ payload }) {
   try {
-    const result = yield call(api.updateExecutedTask, payload.formValues);
-    yield put(updateExecutedTaskSuccess(result.data));
+    const result = yield call(
+      api,
+      `/executed_tasks/${payload.formValues.id}`,
+      "PATCH",
+      payload.formValues
+    );
+    yield put(updateExecutedTaskSuccess(result));
     yield put(changeIsShowFormAndSelectedExecutedTask(null));
 
     const tasks = yield select((state) => state.task.tasks);
@@ -93,8 +105,12 @@ function* updateExecutedTask({ payload }) {
 
 function* deleteExecutedTask({ payload }) {
   try {
-    const result = yield call(api.deleteExecutedTask, payload.executeTask.id);
-    yield put(deleteExecutedTaskSuccess(result.data));
+    const result = yield call(
+      api,
+      `/executed_tasks/${payload.executeTask.id}`,
+      "DELETE"
+    );
+    yield put(deleteExecutedTaskSuccess(result));
     yield put(changeIsShowFormAndSelectedExecutedTask(null));
 
     const tasks = yield select((state) => state.task.tasks);
