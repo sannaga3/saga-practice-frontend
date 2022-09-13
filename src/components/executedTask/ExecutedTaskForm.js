@@ -52,7 +52,7 @@ export const ExecutedTaskForm = ({
 
   const defaultDate = executedTask ? executedTask.date : selectedCalendarDate;
 
-  const handleDelete = (executedTaskId) => {
+  const handleDelete = () => {
     if (!window.confirm("本当に投稿を削除しますか？")) {
       return false;
     }

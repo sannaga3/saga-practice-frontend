@@ -9,5 +9,6 @@
   - 実行済みタスクのCRUD
 - 画像のやりとりはbase64で行う。フロント側で予めbase64に変換した方が楽そう。
 - タスク一覧の表示ではMaterial UIのDataGridとmaterial-tableを試してみた。<br>material-tableはRedux Toolkitと相性が悪い
-- 実行済みタスクはFullCalendar上で管理
-- 実行済みタスクはFetch APIを使ってみた。axiosよりFetchAPIの方がメソッドの共通化が簡単かも。
+- 実行済みタスクをFullCalendar上で管理
+- 実行済みタスクはFetch APIを使用
+- タスクの進捗率をボード上に表示（three.js）

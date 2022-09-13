@@ -10,6 +10,7 @@ import jaLocale from "@fullcalendar/core/locales/ja";
 import { ErrorMessage } from "../layout/message/ErrorMessage";
 import { FlashMessage } from "../layout/message/FlashMessage";
 import { getExecutedTasksRequest } from "../../sagas/executedTasks";
+import { AchievedBar } from "./threejs/AchievedBar";
 
 import {
   executedTasksByTaskId,
@@ -69,6 +70,9 @@ export const ExecutedTaskList = ({ task, flash = null }) => {
       <div className="w-5/6 border rounded-lg shadow-xl bg-white">
         <div className="flexCol items-center bg-white rounded-t-lg pt-5 px-5">
           <h1 className="titleText">タスク進捗管理</h1>
+          <div className="w-full h-60 my-3">
+            <AchievedBar task={task} executedTasks={executedTasks} />
+          </div>
           <div className="w-2/3">
             {errors.status &&
               errors.status !== "store" &&
